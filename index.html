@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>React Native Technical Documentation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway:400, 600" />
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+    <body>
+        <header id="header" class="header">
+            <h1>React Native Technical Documentation</h1>
+        </header>
+        <nav id="navbar">
+            <header>Table of Contents</header>
+            <a class="nav-link" href="#Learn_the_Basics">Learn the Basics</a>
+            <a class="nav-link" href="#Hello_World">Hello World</a>
+            <a class="nav-link" href="#Whats_going_on_here">What's going on here?</a>
+            <a class="nav-link" href="#Components">Components</a>
+            <a class="nav-link" href="#Props">Props</a>
+            <a class="nav-link" href="#State">State</a>
+            <a class="nav-link" href="#Style">Style</a>
+            <a class="nav-link" href="#Height_and_Width">Height and Width</a>
+            <a class="nav-link" href="#Fixed_Dimensions">Fixed Dimensions</a>
+            <a class="nav-link" href="#Flex_Dimensions">Flex Dimensions</a>
+            <a class="nav-link" href="#More_Info">More Info</a>
+        </nav>
+        <main id="main-doc">
+            <section id="Learn_the_Basics" class="main-section">
+                <header>
+                    <h2>Learn the Basics</h2>
+                </header>
+                <p>React Native is like React, but it uses native components instead of web components as building blocks. So to understand the basic structure of a React Native app, you need to understand some of the basic React concepts, like JSX, components, <code>state</code>, and <code>props</code>. If you already know React, you still need to learn some React-Native-specific stuff, like the native components. This tutorial is aimed at all audiences, whether you have React experience or not.</p><p>Let's do this thing.</p>
+            </section>
+            <section id="Hello_World" class="main-section">
+                <header>
+                    <h2>Hello World</h2>
+                </header>
+                <p>In accordance with the ancient traditions of our people, we must first build an app that does nothing except say "Hello world". Here it is:</p>
+                <code class="pre">
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
+
+export default class HelloWorldApp extends Component {
+  render() {
+    return (
+      &lt;View&gt;
+        &lt;Text&gt;Hello world!&lt;/Text&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+                </code>
+            </section>
+            <section id="Whats_going_on_here" class="main-section">
+                <header>
+                    <h2>What's going on here?</h2>
+                </header>
+                <p>Some of the things in here might not look like JavaScript to you. Don't panic. This is the future.</p>
+                <p>First of all, ES2015 (also known as ES6) is a set of improvements to JavaScript that is now part of the official standard, but not yet supported by all browsers, so often it isn't used yet in web development. React Native ships with ES2015 support, so you can use this stuff without worrying about compatibility. <code>import</code>, <code>from</code>, <code>class</code>, and <code>extends</code> in the example above are all ES2015 features. If you aren't familiar with ES2015, you can probably pick it up just by reading through sample code like this tutorial has. If you want, <a href="https://babeljs.io/docs/en/learn/">this page</a> has a good overview of ES2015 features.</p>
+                <p>The other unusual thing in this code example is <code>&lt;View&gt;&lt;Text&gt;Hello world!&lt;/Text&gt;&lt;/View&gt;</code>. This is JSX - a syntax for embedding XML within JavaScript. Many frameworks use a special templating language which lets you embed code inside markup language. In React, this is reversed. JSX lets you write your markup language inside code. It looks like HTML on the web, except instead of web things like <code>&lt;div&gt;</code> or <code>&lt;span&gt;</code>, you use React components. In this case, <code>&lt;Text&gt;</code> is a built-in component that just displays some text and View is like the <code>&lt;div&gt;</code> or <code>&lt;span&gt;</code>.</p>
+            </section>
+            <section id="Components" class="main-section">
+                <header>
+                    <h2>Components</h2>
+                </header>
+                <p>So this code is defining <code>HelloWorldApp</code>, a new <code>Component</code>. When you're building a React Native app, you'll be making new components a lot. Anything you see on the screen is some sort of component. A component can be pretty simple - the only thing that's required is a <code>render</code> function which returns some JSX to render.</p>
+            </section>
+            <section id="Props" class="main-section">
+                <header>
+                    <h2>Props</h2>
+                </header>
+                <p>Most components can be customized when they are created, with different parameters. These creation parameters are called <code>props</code>.</p>
+                <p>For example, one basic React Native component is the <code>Image</code>. When you create an image, you can use a prop named <code>source</code> to control what image it shows.</p>
+                <code class="pre">
+import React, { Component } from 'react';
+import { AppRegistry, Image } from 'react-native';
+
+export default class Bananas extends Component {
+  render() {
+    let pic = {
+      uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
+    };
+    return (
+      &lt;Image source={pic} style={{width: 193, height: 110}}/&gt;
+    );
+  }
+}
+
+// skip this line if using Create React Native App
+AppRegistry.registerComponent('AwesomeProject', () => Bananas);
+                </code>
+                <p>Notice that <code>{pic}</code> is surrounded by braces, to embed the variable <code>pic</code> into JSX. You can put any JavaScript expression inside braces in JSX.</p>
+                <p>Your own components can also use <code>props</code>. This lets you make a single component that is used in many different places in your app, with slightly different properties in each place. Just refer to <code>this.props</code> in your <code>render</code> function. Here's an example:</p>
+                <code class="pre">
+import React, { Component } from 'react';
+import { AppRegistry, Text, View } from 'react-native';
+
+class Greeting extends Component {
+  render() {
+    return (
+      &lt;Text&gt;Hello {this.props.name}!&lt;/Text&gt;
+    );
+  }
+}
+
+export default class LotsOfGreetings extends Component {
+  render() {
+    return (
+      &lt;View style={{alignItems: 'center'}}&gt;
+        &lt;Greeting name='Rexxar' /&gt;
+        &lt;Greeting name='Jaina' /&gt;
+        &lt;Greeting name='Valeera' /&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+// skip this line if using Create React Native App
+AppRegistry.registerComponent('AwesomeProject', () => LotsOfGreetings);
+                </code>
+                <p>Using <code>name</code> as a prop lets us customize the <code>Greeting</code> component, so we can reuse that component for each of our greetings. This example also uses the <code>Greeting</code> component in JSX, just like the built-in components. The power to do this is what makes React so cool - if you find yourself wishing that you had a different set of UI primitives to work with, you just invent new ones.</p>
+                <p>The other new thing going on here is the <code>View</code> component. A <code>View</code> is useful as a container for other components, to help control style and layout.</p>
+                <p>With <code>props</code> and the basic <code>Text</code>, <code>Image</code>, and <code>View</code> components, you can build a wide variety of static screens. To learn how to make your app change over time, you need to learn about State.</p>
+            </section>
+            <section id="State" class="main-section">
+                <header>
+                    <h2>State</h2>
+                </header>
+                <p>There are two types of data that control a component: <code>props</code> and <code>state</code>. <code>props</code> are set by the parent and they are fixed throughout the lifetime of a component. For data that is going to change, we have to use <code>state</code>.</p>
+                <p>In general, you should initialize <code>state</code> in the constructor, and then call <code>setState</code> when you want to change it.</p>
+                <p>For example, let's say we want to make text that blinks all the time. The text itself gets set once when the blinking component gets created, so the text itself is a <code>prop</code>. The "whether the text is currently on or off" changes over time, so that should be kept in <code>state</code>.</p>
+                <code class="pre">
+import React, { Component } from 'react';
+import { AppRegistry, Text, View } from 'react-native';
+
+class Blink extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {isShowingText: true};
+
+    // Toggle the state every second
+    setInterval(() => {
+      this.setState(previousState => {
+        return { isShowingText: !previousState.isShowingText };
+      });
+    }, 1000);
+  }
+
+  render() {
+    let display = this.state.isShowingText ? this.props.text : ' ';
+    return (
+      &lt;Text&gt;{display}&lt;/Text&gt;
+    );
+  }
+}
+
+export default class BlinkApp extends Component {
+  render() {
+    return (
+      &lt;View&gt;
+        &lt;Blink text='I love to blink' /&gt;
+        &lt;Blink text='Yes blinking is so great' /&gt;
+        &lt;Blink text='Why did they ever take this out of HTML' /&gt;
+        &lt;Blink text='Look at me look at me look at me' /&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+// skip this line if using Create React Native App
+AppRegistry.registerComponent('AwesomeProject', () => BlinkApp);
+                </code>
+                <p>In a real application, you probably won't be setting state with a timer. You might set state when you have new data arrived from the server, or from user input. You can also use a state container like Redux or Mobx to control your data flow. In that case you would use Redux or Mobx to modify your state rather than calling setState directly.</p>
+                <p>When setState is called, BlinkApp will re-render its Component. By calling <code>setState</code> within the Timer, the component will re-render every time the Timer ticks.</p>
+                <p>State works the same way as it does in React, so for more details on handling state, you can look at the React.Component API. At this point, you might be annoyed that most of our examples so far use boring default black text. To make things more beautiful, you will have to learn about Style.</p>
+            </section>
+            <section id="Style" class="main-section">
+                <header>
+                    <h2>Style</h2>
+                </header>
+                <p>With React Native, you don't use a special language or syntax for defining styles. You just style your application using JavaScript. All of the core components accept a prop named <code>style</code>. The style names and values usually match how CSS works on the web, except names are written using camel casing, e.g <code>backgroundColor</code> rather than <code>background-color</code>.</p>
+                <p>The <code>style</code> prop can be a plain old JavaScript object. That's the simplest and what we usually use for example code. You can also pass an array of styles - the last style in the array has precedence, so you can use this to inherit styles.</p>
+                <p>As a component grows in complexity, it is often cleaner to use <code>StyleSheet.create</code> to define several styles in one place. Here's an example:</p>
+                <code class="pre">
+import React, { Component } from 'react';
+import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+
+export default class LotsOfStyles extends Component {
+  render() {
+    return (
+      &lt;View&gt;
+        &lt;Text style={styles.red}&gt;just red&lt;/Text&gt;
+        &lt;Text style={styles.bigblue}&gt;just bigblue&lt;/Text&gt;
+        &lt;Text style={[styles.bigblue, styles.red]}&gt;bigblue, then red&lt;/Text&gt;
+        &lt;Text style={[styles.red, styles.bigblue]}&gt;red, then bigblue&lt;/Text&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  bigblue: {
+    color: 'blue',
+    fontWeight: 'bold',
+    fontSize: 30,
+  },
+  red: {
+    color: 'red',
+  },
+});
+
+// skip this line if using Create React Native App
+AppRegistry.registerComponent('AwesomeProject', () => LotsOfStyles);
+                </code>
+                <p>One common pattern is to make your component accept a <code>style</code> prop which in turn is used to style subcomponents. You can use this to make styles "cascade" the way they do in CSS.</p>
+                <p>There are a lot more ways to customize text style. Check out the <a href="https://facebook.github.io/react-native/docs/text">Text component reference</a> for a complete list.</p>
+                <p>Now you can make your text beautiful. The next step in becoming a style master is to learn how to control component size.</p>
+            </section>
+            <section id="Height_and_Width" class="main-section">
+                <header>
+                    <h2>Height and Width</h2>
+                </header>
+                <p>A component's height and width determine its size on the screen.</p>
+            </section>
+            <section id="Fixed_Dimensions" class="main-section">
+                <header>
+                    <h2>Fixed Dimensions</h2>
+                </header>
+                <p>The simplest way to set the dimensions of a component is by adding a fixed <code>width</code> and <code>height</code> to style. All dimensions in React Native are unitless, and represent density-independent pixels.</p>
+                <code class="pre">
+import React, { Component } from 'react';
+import { AppRegistry, View } from 'react-native';
+
+export default class FixedDimensionsBasics extends Component {
+  render() {
+    return (
+      &lt;View&gt;
+        &lt;View style={{width: 50, height: 50, backgroundColor: 'powderblue'}} /&gt;
+        &lt;View style={{width: 100, height: 100, backgroundColor: 'skyblue'}} /&gt;
+        &lt;View style={{width: 150, height: 150, backgroundColor: 'steelblue'}} /&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+// skip this line if using Create React Native App
+AppRegistry.registerComponent('AwesomeProject', () => FixedDimensionsBasics);
+                </code>
+                <p>Setting dimensions this way is common for components that should always render at exactly the same size, regardless of screen dimensions.</p>
+            </section>
+            <section id="Flex_Dimensions" class="main-section">
+                <header>
+                    <h2>Flex Dimensions</h2>
+                </header>
+                <p>Use <code>flex</code> in a component's style to have the component expand and shrink dynamically based on available space. Normally you will use <code>flex: 1</code>, which tells a component to fill all available space, shared evenly amongst each other component with the same parent. The larger the <code>flex</code> given, the higher the ratio of space a component will take compared to its siblings.</p>
+                <p>A component can only expand to fill available space if its parent has dimensions greater than 0. If a parent does not have either a fixed <code>width</code> and <code>height</code> or <code>flex</code>, the parent will have dimensions of 0 and the <code>flex</code> children will not be visible.</p>
+                <code class="pre">
+import React, { Component } from 'react';
+import { AppRegistry, View } from 'react-native';
+
+export default class FlexDimensionsBasics extends Component {
+  render() {
+    return (
+      // Try removing the `flex: 1` on the parent View.
+      // The parent will not have dimensions, so the children can't expand.
+      // What if you add `height: 300` instead of `flex: 1`?
+      &lt;View style={{flex: 1}}&gt;
+        &lt;View style={{flex: 1, backgroundColor: 'powderblue'}} /&gt;
+        &lt;View style={{flex: 2, backgroundColor: 'skyblue'}} /&gt;
+        &lt;View style={{flex: 3, backgroundColor: 'steelblue'}} /&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+// skip this line if using Create React Native App
+AppRegistry.registerComponent('AwesomeProject', () => FlexDimensionsBasics);
+                </code>
+                <p>After you can control a component's size, the next step is to learn how to lay it out on the screen.</p>
+            </section>
+            <section id="More_Info" class="main-section">
+                <header>
+                    <h2>More Info</h2>
+                </header>
+                <p>For more info (and the real documentation), hop on over to the <a href="https://facebook.github.io/react-native/docs/tutorial">official React Native documentation</a>!</p>
+            </section>
+        </main>
+    </body>
+</html>
